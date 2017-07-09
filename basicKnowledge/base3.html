@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>canvas上不可见的HTML元素</title>
+	<meta charset="utf-8">
+	<style type="text/css">
+		body{
+			background: rgba(100, 145, 250, 0.3);
+		}
+		#canvas{
+			margin: 0 0 20px 20px;
+			border: thin solid #aaa;
+			cursor: crosshair;
+			padding: 0;
+		}
+		#controls{
+			margin: 20px 0 20px 20px;
+		}
+		#rubberbandDiv{
+			position: absolute;
+			border: solid 3px blue;
+			cursor: crosshair;
+			display: none;
+		}
+	</style>
+</head>
+<body>
+	<div id="controls">
+		<input type="button" name="" id="resetButton" value="reset" />
+	</div>
+
+	<div id="rubberbandDiv"></div>
+
+	<canvas id="canvas" width="800" height="520">
+		canvas not supported
+	</canvas>
+
+	<script type="text/javascript" src="base3.js"></script>
+</body>
+</html>
