@@ -1,7 +1,12 @@
 var canvas = document.getElementById("canvas2"),
 	context = canvas.getContext("2d"),
 	radius = canvas.width/2 - 30;
+var snapshotButton = document.getElementById("snapshotButton"),
+	snapshotImageElement = document.getElementById("snapshotImageElement"),
+	loop;
+var liPing = document.getElementById("liPing");
 
+// 绘制时钟
 function drawCircle(){
 	context.beginPath();
 	context.arc(canvas.width/2, canvas.height/2, radius, 0 , Math.PI*2, true);
@@ -87,6 +92,32 @@ function drawClock(){
 	drawCenter();
 	drawInterval();
 	drawNum();
-	drawHands()
+	drawHands();
+	// 离屏
+	updateClockImage();
 }
-setInterval(drawClock, 1000);
+loop = setInterval(drawClock, 1000);
+
+// 打印canvas的内容 toDataURL()
+snapshotButton.onclick = function(e){
+	var dataUrl;
+
+	if (snapshotButton.value == "take snapshot") {
+		dataUrl = canvas.toDataURL();
+		clearInterval(loop);
+		snapshotImageElement.src = dataUrl;
+		snapshotImageElement.style.display = "inline";
+		canvas.style.display = "none";
+		snapshotButton.value = "return to canvas";
+	}else{
+		canvas.style.display = "inline";
+		snapshotImageElement.style.display = "none";
+		loop = setInterval(drawClock, 1000);
+		snapshotButton.value = "take snapshot";
+	}
+}
+
+// 离屏canvas：不显示canvas，并将canvas的内容赋值给img展示
+function updateClockImage(){
+	liPing.src = canvas.toDataURL();
+}
