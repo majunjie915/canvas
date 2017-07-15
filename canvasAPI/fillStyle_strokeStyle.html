@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>渐变色与图案</title>
+	<meta charset="utf-8">
+	<style type="text/css">
+		body{
+			background: #ddd;
+		}
+		#canvas, #canvas2, #canvas3{
+			background: #fff;
+			border: thin inset #aaa;
+		}
+		#radios{
+			padding: 10px;
+		}
+	</style>
+</head>
+<body>
+	<!-- 线性渐变 -->
+	<canvas id="canvas">Your brower is not supported canvas.</canvas>
+	<!-- 放射性渐变 -->
+	<canvas id="canvas2" width="400" height="400">Your brower is not supported canvas.</canvas>
+	<!-- 图片描边、填充 -->
+	<div id="radios">
+		<input type="radio" id="repeatRadio" name="patternRadio" checked="checked"/>repeat
+		<input type="radio" id="repeatXRadio" name="patternRadio" />repeatX
+		<input type="radio" id="repeatYRadio" name="patternRadio" />repeatY
+		<input type="radio" id="noRepeatRadio" name="patternRadio" />no_repeat
+	</div>
+	<canvas id="canvas3" width="450" height="275">Your brower is not suppoted canvas.</canvas>
+
+	<script type="text/javascript">
+		var canvas = document.getElementById("canvas"),
+			context = canvas.getContext("2d"),
+			gradient = context.createLinearGradient(0, 0, canvas.width, 0);
+
+		gradient.addColorStop(0, "blue");
+		gradient.addColorStop(0.25, "white");
+		gradient.addColorStop(0.5, "purple");
+		gradient.addColorStop(0.75, "red");
+		gradient.addColorStop(1, "yellow");
+
+		context.fillStyle = gradient;
+		context.rect(0, 0, canvas.width, canvas.height);
+		context.fill();
+
+		var canvas2 = document.getElementById("canvas2"),
+			context2 = canvas2.getContext("2d"),
+			gradient2 = context2.createRadialGradient(canvas2.width/2, canvas2.height, 10, canvas2.width/2, 0, 100);
+
+		gradient2.addColorStop(0, "blue");
+		gradient2.addColorStop(0.25, "white");
+		gradient2.addColorStop(0.5, "purple");
+		gradient2.addColorStop(0.75, "red");
+		gradient2.addColorStop(1, "yellow");
+
+		context2.fillStyle = gradient2;
+		context2.rect(0, 0, canvas2.width, canvas2.height);
+		context2.fill(); 
+
+		var canvas3 = document.getElementById("canvas3"),
+			context3 = canvas3.getContext("2d"),
+			repeatRadio = document.getElementById("repeatRadio"),
+			repeatXRadio = document.getElementById("repeatXRadio"),
+			repeatYRadio = document.getElementById("repeatYRadio"),
+			noRepeatRadio = document.getElementById("noRepeatRadio"),
+			image = new Image();
+
+		function fillCanvasWithPattern(repeatString){
+			var pattern = context3.createPattern(image, repeatString);
+			context3.clearRect(0, 0, canvas3.width, canvas3.height);
+			context3.fillStyle = pattern;
+			context3.fillRect(0, 0, canvas3.width, canvas3.height);
+			context3.fill();
+		}
+
+		repeatRadio.onclick = function(e){
+			fillCanvasWithPattern("repeat");
+		}
+		repeatXRadio.onclick = function(e){
+			fillCanvasWithPattern("repeat-x");
+		}
+		repeatYRadio.onclick = function(e){
+			fillCanvasWithPattern("repeat-y");
+		}
+		noRepeatRadio.onclick = function(e){
+			fillCanvasWithPattern("no-repeat");
+		}
+
+		image.src = "../images/star1.png";
+		window.onload = function(e){
+			fillCanvasWithPattern("repeat");
+		}
+	</script>
+</body>
+</html>

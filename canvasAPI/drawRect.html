@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>矩形的绘制</title>
+	<meta charset="utf-8">
+	<style type="text/css">
+		body{
+			background: #ddd;
+		}
+		#canvas{
+			background: #fff;
+			border: thin inset #aaa;
+		}
+	</style>
+</head>
+<body>
+	<canvas id="canvas" width="650" height="350">Your brower is not supported canvas.</canvas>
+
+	<script type="text/javascript">
+		var canvas = document.getElementById("canvas"),
+			context = canvas.getContext("2d");
+
+		context.lineJoin = "round";
+		context.lineWidth = 30;
+
+		context.font = "24px Hevetica";
+		context.fillText("Click anywhere to earse", 175, 40);
+		context.fillText("Click anywhere to earse", 175, 200);
+
+		context.strokeStyle = "goldenrod";
+		context.fillStyle = "rgba(0, 0, 255, 0.5)";
+
+		context.strokeRect(75, 100, 200, 200);
+		context.fillRect(325, 100, 200, 200);
+
+		context.canvas.onmousedown = function(){
+			context.clearRect(0, 0, canvas.width, canvas.height);
+		}
+	</script>
+</body>
+</html>
