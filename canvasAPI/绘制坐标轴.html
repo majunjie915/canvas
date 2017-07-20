@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>绘制坐标轴</title>
+	<meta charset="utf-8">
+	<style type="text/css">
+
+	</style>
+</head>
+<body>
+	<canvas id="canvas" width="500" height="500">Canvas not support</canvas>
+
+	<script type="text/javascript">
+		var canvas = document.getElementById("canvas"),
+			context = canvas.getContext("2d"),
+			axisMargin = 40,
+			axisOrigin = {
+				x: axisMargin,
+				y: canvas.height - axisMargin
+			},
+			axisTop = axisMargin,
+			axisRight = canvas.width - axisMargin,
+
+			horzontalTickSpacing = 10,
+			verticalTickSpacing = 10,
+
+			axisWidth = axisRight - axisOrigin.x,
+			axisHeight = axisOrigin.y - axisTop,
+
+			numVerticalTick = axisHeight / verticalTickSpacing,
+			numHorizontalTick  = axisWidth / horzontalTickSpacing,
+
+			tickHeight = 10,
+			ticksLineWidth = 0.5,
+			tickColor = "navy",
+
+			axisLineWidth = 1.0,
+			axisColor = "blue";
+			// 画网格
+			function drawGrid(context, color, stepx, stepy){
+				context.strokeStyle = color;
+				context.lineWidth = 0.5;
+
+				for (var i = stepx+0.5; i < context.canvas.width; i += stepx) {
+					context.beginPath();
+					context.moveTo(i, 0);
+					context.lineTo(i, context.canvas.height);
+					context.stroke();
+				}
+				for(var i = stepy + 0.5; i < context.canvas.height; i+=stepy){
+					context.beginPath();
+					context.moveTo(0, i);
+					context.lineTo(context.canvas.width, i);
+					context.stroke();
+				}
+			}
+
+			// 画坐标
+			function drawAxes(){
+				context.save();
+				context.strokeStyle = axisColor;
+				context.lineWidth = axisLineWidth;
+
+				drawHorizontalAxis();
+				drawVerticalAxis();
+
+				context.strokeStyle = tickColor;
+				context.lineWidth = ticksLineWidth;
+
+				drawHorizontalAxisTicks();
+				drawVerticalAxisTicks();
+
+				context.restore();
+			}
+			// 画横坐标
+			function drawHorizontalAxis(){
+				context.beginPath();
+				context.moveTo(axisOrigin.x, axisOrigin.y);
+				context.lineTo(axisRight, axisOrigin.y);
+				context.stroke();
+			}
+			// 画纵坐标
+			function drawVerticalAxis(){
+				context.beginPath();
+				context.moveTo(axisOrigin.x, axisOrigin.y);
+				context.lineTo(axisOrigin.x, axisTop);
+				context.stroke();
+			}
+			// 画横坐标的刻度
+			function drawHorizontalAxisTicks(){
+				var deltaY;
+
+				for(var i = 1; i<numHorizontalTick; i++){
+					context.beginPath();
+					if (i % 5 === 0) {
+						deltaY = tickHeight;
+					}else{
+						deltaY = tickHeight/2;
+					}
+					context.moveTo(axisOrigin.x + i*horzontalTickSpacing, axisOrigin.y - deltaY);
+					context.lineTo(axisOrigin.x + i*horzontalTickSpacing, axisOrigin.y + deltaY);
+					context.stroke();
+				}
+			}
+			// 画纵坐标的刻度
+			function drawVerticalAxisTicks(){
+				var deltaX;
+
+				for(var i = 1; i<numVerticalTick; i++){
+					context.beginPath();
+					if (i % 5 === 0) {
+						deltaX = tickHeight;
+					}else{
+						deltaX = tickHeight/2;
+					}
+					context.moveTo(axisOrigin.x - deltaX, axisOrigin.y - i*verticalTickSpacing);
+					context.lineTo(axisOrigin.x + deltaX, axisOrigin.y - i*verticalTickSpacing);
+					context.stroke();
+				}
+			}
+
+			drawGrid(context, "lightgray", 10, 10);
+			drawAxes();
+	</script>
+</body>
+</html>
